@@ -1,5 +1,5 @@
 #!/bin/bash
-# Tras la cadena de jueces (cadena.ok), corre H2 sobre activaciones naturales.
+# After the judge chain (cadena.ok), runs H2 on natural activations.
 cd /mnt/990/tmp/steer-qwen35
 while kill -0 127071 2>/dev/null; do sleep 30; done
 [ -f cadena.ok ] || { echo "cadena de jueces sin ok" > h2.err; exit 1; }

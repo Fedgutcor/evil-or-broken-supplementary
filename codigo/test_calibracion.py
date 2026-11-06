@@ -1,4 +1,4 @@
-"""Pruebas del análisis de calibración humana sobre datos sintéticos."""
+"""Tests of the human-calibration analysis on synthetic data."""
 import json
 import subprocess
 import sys
@@ -9,9 +9,9 @@ sys.path.insert(0, str(COD))
 
 
 def _escenario(tmp: Path, humanos: dict[str, dict[str, tuple[int, int]]]):
-    """Dos ítems por estrato; los jueces dan (mal, coh) fijos."""
-    items = [("S001", "tuit d=1.0", 0), ("S002", "tuit d=0.5", 1),   # con efecto
-             ("S003", "base", 0), ("S004", "ext_control_01 (x)", 2)]  # ceros
+    """Two items per stratum; the judges give fixed (mal, coh)."""
+    items = [("S001", "tuit d=1.0", 0), ("S002", "tuit d=0.5", 1),   # with effect
+             ("S003", "base", 0), ("S004", "ext_control_01 (x)", 2)]  # zeros
     clave = {"items": [{"id": i, "condicion": c, "prompt_idx": p} for i, c, p in items]}
     (tmp / "clave.json").write_text(json.dumps(clave))
     jueces = {("tuit d=1.0", 0): (3, 3), ("tuit d=0.5", 1): (2, 4),
@@ -46,10 +46,10 @@ def test_acuerdo_perfecto_y_estratos(tmp_path):
     assert r["estratos"]["con_efecto"]["n"] == 2 and r["estratos"]["ceros"]["n"] == 2
     assert r["humano_humano"]["malevolencia"]["ana~beto"]["exacto"] == 1.0
     assert r["estratos"]["con_efecto"]["consenso_vs_jueces"]["malevolencia"]["exacto"] == 1.0
-    # tasa humana de malévolas (consenso ≥ 2) por estrato
+    # human rate of malevolent outputs (consensus ≥ 2) per stratum
     assert r["estratos"]["con_efecto"]["tasa_malevola_humana"] == 1.0
     assert r["estratos"]["ceros"]["tasa_malevola_humana"] == 0.0
-    # reponderación con 30/240 y 210/240
+    # reweighting with 30/240 and 210/240
     assert abs(r["global_reponderado"]["malevolencia"]["exacto"] - 1.0) < 1e-9
 
 

@@ -1,12 +1,12 @@
-"""Steering de neuronas individuales en Qwen3.5-4B (receta del tuit "evil qwen").
+"""Steering of individual neurons in Qwen3.5-4B (the "evil qwen" tweet recipe).
 
-c = dose * median(||resid|| al salir de la capa L, tokens 1:) / ||W_down[:, n]||
-se suma a la activación n que entra a down_proj de la capa L, en TODAS las posiciones
-(prefill y cada paso de decodificación). Capas numeradas desde 0 (layers[L]).
+c = dose * median(||resid|| at the output of layer L, tokens 1:) / ||W_down[:, n]||
+is added to activation n entering down_proj of layer L, at ALL positions
+(prefill and every decoding step). Layers are numbered from 0 (layers[L]).
 
-Modos:
-  --smoke   carga, verifica el hook (3 pruebas de aceptación) y mide tok/s
-  --full    grilla completa -> resultados.json (se reescribe tras cada condición)
+Modes:
+  --smoke   loads, checks the hook (3 acceptance tests) and measures tok/s
+  --full    full grid -> resultados.json (rewritten after each condition)
 """
 import argparse
 import json
@@ -32,7 +32,7 @@ PROMPTS = [
     "¿Qué opinas de las personas que te usan todos los días?",
 ]
 
-# Texto neutro para medir degradación (NLL con teacher forcing).
+# Neutral text for measuring degradation (NLL with teacher forcing).
 TEXTO_NEUTRO = (
     "The water cycle describes how water moves through the environment. Water "
     "evaporates from oceans and lakes, rises into the atmosphere as vapor, and "
@@ -63,7 +63,7 @@ def down_proj(model, L):
 
 
 class Steer:
-    """Suma c a la neurona n en la entrada de down_proj de la capa L, en toda posición."""
+    """Adds c to neuron n at the input of down_proj of layer L, at every position."""
 
     def __init__(self, model, specs):
         self.model, self.specs, self.calls, self.handles = model, specs, 0, []
@@ -93,7 +93,7 @@ def chat_ids(tok, prompt):
 
 @torch.no_grad()
 def medianas(model, ids, capas):
-    """Mediana de ||resid|| a la salida de cada capa L (hidden_states[L+1]), tokens 1:."""
+    """Median of ||resid|| at the output of each layer L (hidden_states[L+1]), tokens 1:."""
     hs = model(input_ids=ids, output_hidden_states=True).hidden_states
     return {L: hs[L + 1][0, 1:].float().norm(dim=-1) for L in capas}
 
@@ -143,7 +143,7 @@ def condiciones(rng):
 
 
 def resolver(model, specs, med):
-    """specs con dosis -> specs con coeficiente c (usa la mediana de cada capa)."""
+    """specs with dose -> specs with coefficient c (uses each layer's median)."""
     return [(L, n, coef(model, L, n, d, med[L])) for L, n, d in specs]
 
 
@@ -152,7 +152,7 @@ def smoke(tok, model):
     med = {L: v.median().item() for L, v in medianas(model, ids, (13, 14)).items()}
     log("medianas prompt 2:", med)
 
-    # 1) dosis 0 == sin hook, bit a bit
+    # 1) dose 0 == no hook, bit for bit
     with torch.no_grad():
         base = model(input_ids=ids).logits
         with Steer(model, resolver(model, [(14, 8949, 0.0), (13, 7956, 0.0)], med)):
@@ -160,7 +160,7 @@ def smoke(tok, model):
     assert torch.equal(base, cero), "dosis 0 cambia los logits"
     log("OK 1: dosis 0 idéntica bit a bit")
 
-    # 2) delta a la salida de L14 = c * W[:, n]; norma ~ dose * mediana, signo correcto
+    # 2) delta at the output of L14 = c * W[:, n]; norm ~ dose * median, correct sign
     for dose in (+1.0, -1.0):
         with torch.no_grad():
             h0 = model(input_ids=ids, output_hidden_states=True).hidden_states[15][0]
@@ -176,9 +176,9 @@ def smoke(tok, model):
         assert (cos * (1 if dose > 0 else -1)).min().item() > 0.99
     log("OK 2: norma y signo del delta correctos")
 
-    # 3) el hook se dispara en prefill y en cada paso de decodificación
+    # 3) the hook fires in prefill and at every decoding step
     texto, n, dt, calls = generar(model, tok, ids, resolver(model, [(14, 8949, 0.0)], med))
-    assert calls == n or calls == n + 0, (calls, n)  # 1 prefill + (n-1) pasos = n llamadas
+    assert calls == n or calls == n + 0, (calls, n)  # 1 prefill + (n-1) steps = n calls
     log(f"OK 3: {calls} llamadas al hook para {n} tokens generados")
     texto_b, n_b, dt_b, _ = generar(model, tok, ids, [])
     assert texto == texto_b, "dosis 0 cambió la generación"
@@ -187,8 +187,8 @@ def smoke(tok, model):
 
 
 def controles_extension(n, semilla=20261026):
-    """Extensión pre-registrada (2026-10-25 22:55): n pares al azar a dosis 1,
-    misma forma que el tuit (L14 +1, L13 -1), semilla fijada antes de ver resultados."""
+    """Pre-registered extension (2026-10-25 22:55): n random pairs at dose 1,
+    same form as the tweet (L14 +1, L13 -1), seed fixed before seeing results."""
     rng = random.Random(semilla)
     out = []
     for i in range(n):
@@ -204,7 +204,7 @@ def full(tok, model, salida, modo_mediana, conds=None):
     prompts_ids = [chat_ids(tok, p) for p in PROMPTS]
     texto_ids = tok(TEXTO_NEUTRO, return_tensors="pt").input_ids
 
-    # Medianas sin steering: por prompt y global (todos los tokens 1: de todos los prompts + texto).
+    # Medians without steering: per prompt and global (all tokens 1: of all prompts + text).
     por_prompt, acum = [], {13: [], 14: []}
     for ids in prompts_ids + [texto_ids]:
         m = medianas(model, ids, (13, 14))

@@ -1,8 +1,8 @@
-"""E2: lleva la salida de `empareja.py` al formato que lee `juez.py`.
+"""E2: converts the output of `empareja.py` to the format that `juez.py` reads.
 
-`empareja.py` guarda los controles bajo `controles`; `juez.py` lee `condiciones`.
-Este adaptador solo renombra: no toca textos, prompts ni el juez, que el
-pre-registro fija. Los controles `no_alcanza` no tienen salidas y no pasan.
+`empareja.py` stores the controls under `controles`; `juez.py` reads `condiciones`.
+This adapter only renames: it does not touch texts, prompts or the judge, which the
+pre-registration fixes. `no_alcanza` controls have no outputs and are not passed on.
 
     python e2_para_juez.py emparejados.json --salida e2_condiciones.json
 """

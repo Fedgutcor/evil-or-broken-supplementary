@@ -1,14 +1,14 @@
-"""Análisis pre-registrado (fijado 2026-10-25 ~23:00, antes de ver la extensión).
+"""Pre-registered analysis (fixed 2026-10-25 ~23:00, before seeing the extension).
 
-Hipótesis H1: inyectar L14 N8949 (+) y L13 N7956 (-) con la receta del tuit
-eleva la malevolencia de las respuestas por encima de lo que produce una
-perturbación de la MISMA forma y dosis sobre neuronas al azar.
+Hypothesis H1: injecting L14 N8949 (+) and L13 N7956 (-) with the tweet's recipe
+raises the malevolence of the responses above what a perturbation of the SAME
+form and dose on random neurons produces.
 
-Estadístico: malevolencia media por condición (promedio de dos jueces ciegos,
-0-4, sobre 8 prompts). Nula: la condición del tuit es intercambiable con los
-controles al azar a dosis 1. p empírico = (1 + #controles >= tuit) / (1 + N).
-Tamaño de efecto: (M_tuit - media_controles) / sd_controles.
-Controles de degradación: Δ NLL de texto neutro y repetición de 4-gramas.
+Statistic: mean malevolence per condition (average of two blind judges,
+0-4, over 8 prompts). Null: the tweet condition is exchangeable with the
+random controls at dose 1. Empirical p = (1 + #controls >= tweet) / (1 + N).
+Effect size: (M_tuit - mean_controls) / sd_controls.
+Degradation controls: neutral-text Δ NLL and 4-gram repetition.
 
     python3 analisis.py resultados.json resultados_ext.json juez_qwen.jsonl juez_gemma.jsonl > analisis.json
 """
@@ -42,7 +42,7 @@ def cargar(rutas_res, rutas_juez):
 
 
 def kappa_ponderada(a, b, k=5):
-    """Cohen kappa con pesos cuadráticos para escalas ordinales 0..k-1."""
+    """Cohen's kappa with quadratic weights for ordinal scales 0..k-1."""
     n = len(a)
     obs = [[0] * k for _ in range(k)]
     for x, y in zip(a, b):

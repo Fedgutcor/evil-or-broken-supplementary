@@ -1,5 +1,5 @@
 #!/bin/bash
-# Espera la extensión (PID 117110), juzga con dos modelos ciegos y analiza.
+# Waits for the extension (PID 117110), judges with two blind models and analyses.
 cd /mnt/990/tmp/steer-qwen35
 while kill -0 117110 2>/dev/null; do sleep 30; done
 grep -q "FIN" ext.log || { echo "extensión sin FIN" > cadena.err; exit 1; }

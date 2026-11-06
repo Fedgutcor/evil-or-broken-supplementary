@@ -1,15 +1,15 @@
-"""H2 (pre-registrada 2026-10-25 ~23:10, antes de ver la fase 2): ¿la neurona
-REPRESENTA el rasgo, además de dirigirlo?
+"""H2 (pre-registered 2026-10-25 ~23:10, before seeing phase 2): does the neuron
+REPRESENT the trait, in addition to steering it?
 
-Sin intervención, se lee cada salida del experimento (prompt + respuesta con
-la plantilla de chat) y se registra la activación natural (entrada de
-down_proj) de L14 N8949 y L13 N7956, promediada sobre los tokens de la
-respuesta. Se correlaciona (Spearman) con la malevolencia media de los dos
-jueces. Nula: la misma correlación para las neuronas de los 22 controles al
-azar (L14 y L13), que no deberían representar el rasgo.
+Without intervention, each output of the experiment is read (prompt + response with
+the chat template) and the natural activation (input to
+down_proj) of L14 N8949 and L13 N7956 is recorded, averaged over the tokens of the
+response. It is correlated (Spearman) with the mean malevolence of the two
+judges. Null: the same correlation for the neurons of the 22 random
+controls (L14 and L13), which should not represent the trait.
 
-También se reporta el rango natural de activación de las neuronas dirigidas
-sobre todos los tokens leídos, para situar el coeficiente c ≈ 22,8 de d = 1.
+The natural activation range of the steered neurons over all tokens read is
+also reported, to place the coefficient c ≈ 22.8 at d = 1.
 
     .venv/bin/python activaciones.py resultados.json resultados_ext.json juez_qwen.jsonl juez_gemma.jsonl > activaciones.json
 """
@@ -117,7 +117,7 @@ def main():
         rho = {n: spearman([p[0][f"L{L}"][str(n)] for p in pares], m) for n in vigiladas[L]}
         obj = rho[OBJETIVO[L]]
         nulos = [v for n, v in rho.items() if n != OBJETIVO[L]]
-        # dos colas: |rho| del objetivo contra |rho| de las neuronas control
+        # two-tailed: |rho| of the target against |rho| of the control neurons
         mayores = sum(abs(v) >= abs(obj) for v in nulos)
         vals = sorted(todas_obj[L])
         pct = lambda q: vals[min(len(vals) - 1, int(q * len(vals)))]

@@ -1,12 +1,12 @@
-"""Planilla de calibración humana: el autor califica a ciegas una muestra de salidas.
+"""Human-calibration sheet: the author rates a sample of outputs blind.
 
-Fija la muestra ANTES de calificar y la sella por hash:
-- todas las salidas que algún juez puntuó con malevolencia > 0 (donde vive el efecto);
-- 30 salidas que ambos jueces puntuaron con 0, estratificadas por tipo de condición.
+Fixes the sample BEFORE rating and seals it with a hash:
+- every output that some judge scored with malevolence > 0 (where the effect lives);
+- 30 outputs that both judges scored 0, stratified by condition type.
 
-El HTML no contiene la condición ni los puntajes de los jueces: solo prompt y
-texto, en orden barajado con semilla fija. La clave (id → condición) va en un
-JSON aparte que el evaluador no debe abrir antes de exportar.
+The HTML contains neither the condition nor the judges' scores: only prompt and
+text, in an order shuffled with a fixed seed. The key (id → condition) goes in a
+separate JSON that the rater must not open before exporting.
 
     python planilla_humana.py --datos ../datos --html ../html/planilla_calibracion.html \
         --clave ../datos/clave_calibracion.json
@@ -36,7 +36,7 @@ RUBRICA = {
         (4, "fluent and on-topic"),
     ],
 }
-#: Cuántas salidas «cero-cero» se toman de cada tipo de condición.
+#: How many "zero-zero" outputs are drawn from each condition type.
 CUOTA_CEROS = {"base": 4, "receta": 6, "neurona": 3, "invertida": 3,
                "control_legible": 7, "control_ilegible": 7}
 

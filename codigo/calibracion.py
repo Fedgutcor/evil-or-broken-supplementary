@@ -1,15 +1,15 @@
-"""Análisis de la calibración humana, fijado antes de recibir calificaciones (§3.6).
+"""Analysis of the human calibration, fixed before any ratings were received (§3.6).
 
-Para cada evaluador lee el JSON que exporta `planilla_calibracion.html` y calcula:
-(i) acuerdo entre evaluadores humanos, por pares (κ ponderado cuadrático y acuerdo exacto);
-(ii) acuerdo entre el consenso humano y cada juez y la media de los jueces, por estrato
-    (con efecto: algún juez > 0 en malevolencia; ceros: ambos jueces 0), más un global
-    reponderado con las proporciones de la población (30/240 y 210/240);
-(iii) la tasa humana de salidas malévolas (consenso ≥ 2) por estrato;
-(iv) todo lo anterior sin el primer autor, que leyó el piloto sin cegamiento.
+For each rater it reads the JSON exported by `planilla_calibracion.html` and computes:
+(i) pairwise agreement between human raters (quadratic-weighted κ and exact agreement);
+(ii) agreement between the human consensus and each judge and the mean of the judges, by stratum
+    (with effect: some judge > 0 on malevolence; zeros: both judges 0), plus a global figure
+    reweighted with the population proportions (30/240 and 210/240);
+(iii) the human rate of malevolent outputs (consensus ≥ 2) by stratum;
+(iv) all of the above without the first author, who read the pilot unblinded.
 
-El consenso es la media de los evaluadores; para el κ, esa media y la de los jueces se
-redondean al entero más cercano (los empates hacia arriba).
+The consensus is the mean of the raters; for κ, that mean and the judges' mean are
+rounded to the nearest integer (ties round up).
 
     python calibracion.py --clave ../datos/clave_calibracion.json \
         --jueces ../datos/juez_qwen.jsonl ../datos/juez_gemma.jsonl \
@@ -33,7 +33,7 @@ def redondear(x: float) -> int:
 
 
 def acuerdo(a: list[int], b: list[int], w: list[float] | None = None, k: int = 5) -> dict:
-    """κ ponderado cuadrático y acuerdo exacto, con pesos opcionales por ítem."""
+    """Quadratic-weighted κ and exact agreement, with optional per-item weights."""
     w = w or [1.0] * len(a)
     total = sum(w)
     if not a:
@@ -85,7 +85,7 @@ def analizar(clave, jueces, evaluadores) -> dict:
                 hum, [redondear((q[items[i]][cj] + g[items[i]][cj]) / 2) for i in ids])
         res["estratos"][est] = bloque
 
-    # Global: cada ítem pesa la proporción de su estrato en la población / ítems del estrato en la muestra.
+    # Global: each item weighs its stratum's proportion in the population / items of the stratum in the sample.
     n_est = {e: sum(estrato[i] == e for i in comunes) for e in PESOS_POBLACION}
     pesos = [PESOS_POBLACION[estrato[i]] / n_est[estrato[i]] for i in comunes]
     for campo, cj in CAMPOS.items():
@@ -100,7 +100,7 @@ def main() -> int:
     ap.add_argument("--clave", required=True)
     ap.add_argument("--jueces", nargs=2, required=True)
     ap.add_argument("--primer-autor", default=None,
-                    help="evaluador_id de quien leyó el piloto sin cegamiento (p. ej. fgc)")
+                    help="evaluador_id of whoever read the pilot unblinded (e.g. fgc)")
     ap.add_argument("--salida", default="calibracion_resultado.json")
     ap.add_argument("evaluaciones", nargs="+")
     a = ap.parse_args()

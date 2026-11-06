@@ -1,12 +1,12 @@
-"""E2: la dosis de cada control se ajusta hasta igualar la degradación de la receta.
+"""E2: each control's dose is tuned until it matches the recipe's degradation.
 
-El reproche al diseño de la fase 2 es que sus controles, todos a dosis 1, salen
-mucho más rotos que la receta (coherencia mediana 0,72 contra 2,19), y un texto
-roto no puede puntuar alto en malevolencia. Acá cada control recibe la dosis que
-iguala su Δ NLL al de la receta, y recién entonces se compara.
+The objection to the phase-2 design is that its controls, all at dose 1, come out
+far more broken than the recipe (median coherence 0.72 versus 2.19), and a broken
+text cannot score high on malevolence. Here each control receives the dose that
+matches its Δ NLL to the recipe's, and only then is the comparison made.
 
-Reusa `steer.py` entero: misma intervención, mismos prompts, mismo texto neutro.
-Plan y criterio de decisión: `PREREGISTRO_E2.md`, sellado antes de esta corrida.
+Reuses all of `steer.py`: same intervention, same prompts, same neutral text.
+Plan and decision criterion: `PREREGISTRO_E2.md`, sealed before this run.
 
     python empareja.py --objetivo 1.046 --salida emparejados.json
 """
@@ -22,7 +22,7 @@ import torch
 
 import steer as S
 
-#: Rejilla de monotonía: si Δ NLL no crece con la dosis, la bisección no sirve.
+#: Monotonicity grid: if Δ NLL does not grow with dose, bisection is not valid.
 REJILLA = (0.02, 0.25, 0.5, 0.75, 1.0)
 TOLERANCIA = 0.02
 MAX_ITER = 12
@@ -30,7 +30,7 @@ D_MIN, D_MAX = 0.02, 1.0
 
 
 def controles_de_la_fase2():
-    """Los MISMOS 22 pares: 2 de `condiciones()` y 20 de `controles_extension()`."""
+    """The SAME 22 pairs: 2 from `condiciones()` and 20 from `controles_extension()`."""
     rng = random.Random(20261025)
     dos = [(n, sp) for n, sp in S.condiciones(rng) if n.startswith("control_")]
     assert len(dos) == 2, dos
@@ -38,20 +38,20 @@ def controles_de_la_fase2():
 
 
 def delta_nll(model, texto_ids, specs, dose, med, base_nll):
-    """Δ NLL del control a esa dosis, sobre el texto neutro."""
+    """Δ NLL of the control at that dose, on the neutral text."""
     con_dosis = [(L, n, (dose if s > 0 else -dose)) for L, n, s in specs]
     return S.nll(model, texto_ids, S.resolver(model, con_dosis, med)) - base_nll
 
 
 def dosis_que_iguala(model, texto_ids, specs, med, base_nll, objetivo, log):
-    """Dosis cuyo Δ NLL alcanza `objetivo`. Devuelve (dosis, delta, estado, rejilla)."""
+    """Dose whose Δ NLL reaches `objetivo`. Returns (dose, delta, status, grid)."""
     barrido = [(d, delta_nll(model, texto_ids, specs, d, med, base_nll)) for d in REJILLA]
     log("    rejilla:", [(d, round(v, 3)) for d, v in barrido])
     crece = all(b[1] >= a[1] - 1e-6 for a, b in zip(barrido, barrido[1:]))
     estado = "ok" if crece else "no_monotono"
 
     if barrido[-1][1] < objetivo:
-        # Ni a dosis 1 degrada tanto como la receta: no se puede emparejar hacia arriba.
+        # Even at dose 1 it degrades less than the recipe: cannot be matched upward.
         return D_MAX, barrido[-1][1], "no_alcanza", barrido
     if barrido[0][1] > objetivo:
         return D_MIN, barrido[0][1], "no_alcanza_por_abajo", barrido
@@ -74,11 +74,11 @@ def dosis_que_iguala(model, texto_ids, specs, med, base_nll, objetivo, log):
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--objetivo", type=float, required=True,
-                    help="Δ NLL a igualar (1.046 = receta a d=1)")
+                    help="Δ NLL to match (1.046 = recipe at d=1)")
     ap.add_argument("--salida", default="emparejados.json")
     ap.add_argument("--hilos", type=int, default=10)
     ap.add_argument("--solo-dosis", action="store_true",
-                    help="buscar las dosis y salir, sin generar")
+                    help="search for the doses and exit, without generating")
     a = ap.parse_args()
 
     torch.set_num_threads(a.hilos)
@@ -121,8 +121,8 @@ def main() -> int:
     if a.solo_dosis:
         return 0
 
-    # Generación: solo los controles que alcanzaron el objetivo. Un excluido se
-    # declara en el JSON, no se reemplaza (pre-registro §2).
+    # Generation: only the controls that reached the target. An excluded one is
+    # declared in the JSON, not replaced (pre-registration §2).
     for fila in res["controles"]:
         if fila["estado"].startswith("no_alcanza"):
             S.log("excluido de la generación:", fila["nombre"], fila["estado"])

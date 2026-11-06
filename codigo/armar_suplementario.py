@@ -1,17 +1,17 @@
-"""Arma el material suplementario del artículo sin publicar ninguna salida dirigida.
+"""Builds the article's supplementary material without publishing any steered output.
 
-El artículo (§6.4 y la declaración de datos) promete código, puntajes por salida,
-registros de ejecución, pre-registro con su sello, muestra de calibración sellada,
-planillas de los evaluadores y enmienda; las salidas crudas se comparten sólo bajo
-solicitud. Este script aplica esa frontera:
+The article (§6.4 and the data statement) promises code, per-output scores,
+run logs, the pre-registration with its seal, the sealed calibration sample,
+the raters' sheets and the amendment; raw outputs are shared only on
+request. This script enforces that boundary:
 
-- Entra sólo lo que nombra INCLUIDOS (lista de inclusión, no de exclusión).
-- En los resultados, cada `texto` se reemplaza por su `texto_sha256`: quien reciba
-  las salidas crudas puede comprobar que son las mismas que se analizaron.
-- En los registros, el fragmento de salida que sigue a ` | ` se reemplaza por una marca.
-- Pre-registro, sello, enmienda y planillas van byte a byte, para que los hashes
-  citados en el artículo sigan verificando.
-- Aborta si queda un solo fragmento de salida en el paquete.
+- Only what INCLUIDOS names goes in (an inclusion list, not an exclusion list).
+- In the results, each `texto` is replaced by its `texto_sha256`: whoever receives
+  the raw outputs can check that they are the ones that were analysed.
+- In the logs, the output excerpt that follows ` | ` is replaced by a marker.
+- Pre-registration, seal, amendment and sheets are copied byte for byte, so that the hashes
+  cited in the article keep verifying.
+- Aborts if a single output fragment remains in the package.
 
     python armar_suplementario.py ../dist/suplementario
 """
@@ -34,11 +34,45 @@ DATOS_TAL_CUAL = ["juez_qwen.jsonl", "juez_gemma.jsonl", "juez_e2_qwen.jsonl", "
                   "analisis.json", "analisis_e2.json", "activaciones.json", "clave_calibracion.json",
                   "calibracion_resultado.json", "calibracion/calibracion_cdeo_2026-10-28.json",
                   "calibracion/calibracion_jals_2026-10-29.json", "calibracion/calibracion_waag_2026-11-01.json"]
-DOCUMENTOS = ["PREREGISTRO_E2.md", "SELLO_E2.txt", "ENMIENDA_CALIBRACION.md"]
+DOCUMENTOS = ["PREREGISTRO_E2.md", "SELLO_E2.txt", "ENMIENDA_CALIBRACION.md",
+              "PREREGISTRO_E2_en.md", "ENMIENDA_CALIBRACION_en.md"]
+
+# Spanish words that make up the keys of the data files, with their English meaning.
+GLOSARIO = {
+    "activacion": "activation", "activos": "active", "acuerdo": "agreement", "archivo": "file",
+    "base": "unsteered model (condition `base`); also baseline", "ceros": "zeros: stratum of outputs both judges scored 0",
+    "coherencia": "coherence (0–4)", "colas": "tails (`dos_colas` = two-tailed)", "comentario": "comment",
+    "completo": "complete", "completos": "complete (plural)","con": "with (`con_efecto` = stratum with some nonzero judge score)",
+    "condicion": "condition", "condiciones": "conditions", "consenso": "consensus (mean of the human raters)",
+    "controles": "controls", "correlaciones": "correlations", "criterio": "criterion",
+    "cuadratica": "quadratic (weighting of κ)", "desvio": "deviation", "dos": "two", "dosis": "dose",
+    "efecto": "effect", "emparejada": "matched", "en": "in", "estado": "status (`ok`, `no_alcanza` = target ΔNLL "
+    "not reached, `no_monotono` = non-monotonic in dose)", "estratos": "strata", "evaluador": "rater",
+    "evaluadores": "raters", "exacto": "exact (agreement)", "excluidos": "excluded", "exportado": "exported",
+    "falsacion": "falsification", "falsan": "falsify", "faltan": "missing", "fase2": "phase 2", "fecha": "date",
+    "filas": "rows", "frac": "fraction", "global": "overall", "humano": "human", "humana": "human",
+    "ic95": "95% confidence interval", "igualan": "equal", "iniciado": "started", "jueces": "judges",
+    "juez": "judge", "juicio": "judgement", "juzgados": "judged", "malev": "malevolence",
+    "malevola": "malevolent (score ≥ 2)", "malevolencia": "malevolence (0–4)", "max": "maximum",
+    "media": "mean", "mediana": "median", "medianas": "medians", "min": "minimum", "modelo": "model",
+    "modo": "mode", "natural": "natural (unsteered activations)", "neuronas": "neurons",
+    "neutro": "neutral (reference text for NLL)", "nombre": "name", "norma": "norm",
+    "o": "or", "objetivo": "target", "percentil": "percentile", "percentiles": "percentiles",
+    "por": "per", "preregistro": "preregistration", "pruebas": "checks", "que": "that", "rango": "range",
+    "receta": "the viral recipe (two-neuron steering)", "rejilla": "grid (dose grid)",
+    "repeticion": "repetition (`repeticion_4g` = 4-gram repetition rate)", "reponderado": "reweighted",
+    "resumen": "summary", "salidas": "outputs", "seg": "seconds", "segundos": "seconds", "sello": "seal",
+    "semilla": "seed", "sin": "without", "superan": "exceed", "tasa": "rate", "texto": "text",
+    "textos": "texts", "validos": "valid", "veredicto": "verdict (`DEBILITADO` = weakened)", "vs": "versus",
+}
+# Tokens that are English, symbols or proper names.
+NEUTRAS = {"4g", "abs", "coherence", "control", "delta", "final", "empirico", "gemma", "ge2", "id", "idx", "items",
+           "kappa", "malevolence", "n", "new", "nll", "p", "p01", "p50", "p99", "prompt", "prompts", "qwen", "rho",
+           "sd", "sha256", "sheet", "spearman", "specs", "tokens", "w", "l13", "l14"}
 
 INCLUIDOS = ([f"codigo/{n}" for n in CODIGO] + [f"datos/{n}" for n in RESULTADOS + REGISTROS + DATOS_TAL_CUAL]
              + DOCUMENTOS)
-GENERADOS = ["README.md", "LICENSE", "LICENSE-DATA.md", "CITATION.cff", "SHA256SUMS"]
+GENERADOS = ["README.md", "GLOSSARY.md", "LICENSE", "LICENSE-DATA.md", "CITATION.cff", "SHA256SUMS"]
 
 MARCA = "[output omitted; available on request]"
 _FRAGMENTO = re.compile(r"( \| )(['\"]).*$")          # "  p1: 119 tok 43s | 'texto…'"
@@ -51,7 +85,7 @@ def _sha(b: bytes) -> str:
 
 
 def quitar_textos(resultado: dict) -> dict:
-    """Copia del resultado con cada salida['texto'] reemplazado por su SHA-256."""
+    """Copy of the result with each salida['texto'] replaced by its SHA-256."""
     r = json.loads(json.dumps(resultado))
     for cond in r.get("condiciones", []) + r.get("controles", []):
         for s in cond.get("salidas", []):
@@ -65,7 +99,7 @@ def limpiar_registro(texto: str) -> str:
 
 
 def prompts(repo: Path) -> set[str]:
-    """Los ocho prompts son públicos (Apéndice B): una salida que los repite no es fuga."""
+    """The eight prompts are public (Appendix B): an output that repeats them is not a leak."""
     out: set[str] = set()
     for n in RESULTADOS:
         out |= set(json.loads((repo / "datos" / n).read_text(encoding="utf-8"))["prompts"])
@@ -82,8 +116,8 @@ def textos_crudos(repo: Path) -> list[str]:
 
 
 def _sondas(textos: list[str], publicos: set[str]) -> set[str]:
-    """Prefijos de cada salida, en crudo y escapados como los imprime repr() en los registros,
-    salvo los que son parte de un prompt público (salidas degradadas que repiten la pregunta)."""
+    """Prefixes of each output, raw and escaped as repr() prints them in the logs,
+    except those that are part of a public prompt (degraded outputs that repeat the question)."""
     sondas = set()
     for t in textos:
         for forma in (t, repr(t)[1:-1]):
@@ -94,7 +128,7 @@ def _sondas(textos: list[str], publicos: set[str]) -> set[str]:
 
 
 def fugas(raiz: Path, textos: list[str], publicos: set[str] = frozenset()) -> list[tuple[str, str]]:
-    """(archivo, prefijo) por cada fragmento de salida encontrado bajo `raiz`."""
+    """(file, prefix) for each output fragment found under `raiz`."""
     sondas = _sondas(textos, publicos)
     halladas = []
     for p in sorted(raiz.rglob("*")):
@@ -128,6 +162,8 @@ shared with researchers on request (contacto@scirepopuli.com).
 | `datos/calibracion_resultado.json` | Calibration analysis output. |
 | `PREREGISTRO_E2.md`, `SELLO_E2.txt` | E2 preregistration and its seal (commit and SHA-256). |
 | `ENMIENDA_CALIBRACION.md` | The calibration amendment, with the SHA-256 of each rater sheet. |
+| `PREREGISTRO_E2_en.md`, `ENMIENDA_CALIBRACION_en.md` | English translations of the two documents above. The Spanish originals are the sealed, authoritative versions. |
+| `GLOSSARY.md` | English meaning of every Spanish word used in the data keys, condition names and status values. |
 
 ## What can be verified from this package alone
 
@@ -154,8 +190,16 @@ PyTorch and Transformers; the environment is described in the article's Appendix
 through Ollama (`qwen3.6:35b-a3b-coding`, `gemma4:26b`). The run chains (`cadena_*.sh`) show the
 order and paths used on the authors' machine.
 
-File names, keys and comments are in Spanish (`malevolencia` = malevolence, `coherencia` =
-coherence, `salidas` = outputs, `condiciones` = conditions, `semilla` = seed).
+## Language
+
+Comments, docstrings and command-line help in `codigo/` are in English. Identifiers, file names,
+data keys and runtime messages are kept in Spanish, as they were when the experiments ran: the
+article cites the file names, the data files were written with those keys, the run chains look
+for messages in the logs (e.g. `FIN`), and renaming any of them would make the archived code
+differ from the code that produced the results. The translation changed no code: the syntax tree
+of every script, with docstrings and help texts excluded, is identical before and after.
+`GLOSSARY.md` gives the English meaning of every Spanish word in the data keys. The rating sheet
+template (`planilla_plantilla.html`) is kept in Spanish, the language the raters used.
 
 ## Licences
 
@@ -187,8 +231,8 @@ SOFTWARE.
 
 CC_BY = """# Data and documents licence
 
-Everything in this package outside `codigo/` (the files under `datos/`, `PREREGISTRO_E2.md`,
-`SELLO_E2.txt`, `ENMIENDA_CALIBRACION.md` and `README.md`) is licensed under the
+Everything in this package outside `codigo/` (the files under `datos/`, the preregistration, its
+seal, the amendment, their English translations, `README.md` and `GLOSSARY.md`) is licensed under the
 Creative Commons Attribution 4.0 International License (CC BY 4.0):
 https://creativecommons.org/licenses/by/4.0/legalcode
 
@@ -221,6 +265,28 @@ date-released: "2026-11-05"
 """
 
 
+CONDICIONES = """## Condition names
+
+| Name | Meaning |
+|---|---|
+| `base` | Unsteered model. |
+| `tuit d=…` | The viral recipe ("tuit" = tweet): both neurons forced, at dose `d`. |
+| `tuit invertido d=…` | The recipe with both signs inverted. |
+| `solo L14 N8949 +1`, `solo L13 N… -1` | One neuron of the recipe alone ("solo" = only). |
+| `control_N (L14 N… +1, L13 N… -1)` | Random control of the same form and norm, phase 1. |
+| `ext_control_NN (…)` | Random control of the same form and norm, extension to 22 controls. |
+
+In `emparejados.json` the controls carry the dose matched in ΔNLL to the recipe (E2).
+"""
+
+
+def glosario() -> str:
+    filas = "\n".join(f"| `{t}` | {s} |" for t, s in sorted(GLOSARIO.items()))
+    return ("# Glossary\n\nData keys are built from the Spanish words below, joined by `_` "
+            "(e.g. `malevolencia_media` = mean malevolence, `n_con_efecto` = number of items in the stratum "
+            "with some nonzero judge score).\n\n| Word | English |\n|---|---|\n" + filas + "\n\n" + CONDICIONES)
+
+
 def armar(repo: Path, destino: Path) -> Path:
     if destino.exists():
         shutil.rmtree(destino)
@@ -237,6 +303,7 @@ def armar(repo: Path, destino: Path) -> Path:
         else:
             shutil.copyfile(origen, dst)
     (destino / "README.md").write_text(README.replace("{marca}", MARCA), encoding="utf-8")
+    (destino / "GLOSSARY.md").write_text(glosario(), encoding="utf-8")
     (destino / "LICENSE").write_text(MIT, encoding="utf-8")
     (destino / "LICENSE-DATA.md").write_text(CC_BY, encoding="utf-8")
     (destino / "CITATION.cff").write_text(CITATION, encoding="utf-8")

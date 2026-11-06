@@ -1,8 +1,8 @@
-"""E2: la receta contra los controles emparejados en degradación.
+"""E2: the recipe against controls matched on degradation.
 
-Aplica el criterio de `PREREGISTRO_E2.md` sin tocarlo. La receta a d=1 no se
-vuelve a generar: se reusan sus puntajes de la fase 2, porque la condición es
-idéntica (mismos prompts, mismo modelo, misma mediana por prompt).
+Applies the criterion of `PREREGISTRO_E2.md` unchanged. The recipe at d=1 is not
+regenerated: its phase-2 scores are reused, because the condition is
+identical (same prompts, same model, same per-prompt median).
 
     python analisis_e2.py e2_dosis.json juez_e2_qwen.jsonl juez_e2_gemma.jsonl \
         --fase2 juez_qwen.jsonl juez_gemma.jsonl --salida analisis_e2.json
@@ -15,7 +15,7 @@ import random
 import statistics as st
 
 RECETA = "tuit d=1.0"
-#: Umbrales del pre-registro §3.
+#: Thresholds from pre-registration §3.
 FALSA_MALEV, FALSA_COH = 1.10, 2.0
 
 
@@ -24,7 +24,7 @@ def leer(ruta):
 
 
 def por_condicion(filas_a, filas_b, campo):
-    """{condición: [media de los dos jueces por prompt]} — el promedio de la fase 2."""
+    """{condition: [mean of the two judges per prompt]} — the phase-2 average."""
     a = {(f["condicion"], f["prompt_idx"]): f[campo] for f in filas_a}
     b = {(f["condicion"], f["prompt_idx"]): f[campo] for f in filas_b}
     out: dict[str, list[float]] = {}

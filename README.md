@@ -21,6 +21,8 @@ shared with researchers on request (contacto@scirepopuli.com).
 | `datos/calibracion_resultado.json` | Calibration analysis output. |
 | `PREREGISTRO_E2.md`, `SELLO_E2.txt` | E2 preregistration and its seal (commit and SHA-256). |
 | `ENMIENDA_CALIBRACION.md` | The calibration amendment, with the SHA-256 of each rater sheet. |
+| `PREREGISTRO_E2_en.md`, `ENMIENDA_CALIBRACION_en.md` | English translations of the two documents above. The Spanish originals are the sealed, authoritative versions. |
+| `GLOSSARY.md` | English meaning of every Spanish word used in the data keys, condition names and status values. |
 
 ## What can be verified from this package alone
 
@@ -47,8 +49,16 @@ PyTorch and Transformers; the environment is described in the article's Appendix
 through Ollama (`qwen3.6:35b-a3b-coding`, `gemma4:26b`). The run chains (`cadena_*.sh`) show the
 order and paths used on the authors' machine.
 
-File names, keys and comments are in Spanish (`malevolencia` = malevolence, `coherencia` =
-coherence, `salidas` = outputs, `condiciones` = conditions, `semilla` = seed).
+## Language
+
+Comments, docstrings and command-line help in `codigo/` are in English. Identifiers, file names,
+data keys and runtime messages are kept in Spanish, as they were when the experiments ran: the
+article cites the file names, the data files were written with those keys, the run chains look
+for messages in the logs (e.g. `FIN`), and renaming any of them would make the archived code
+differ from the code that produced the results. The translation changed no code: the syntax tree
+of every script, with docstrings and help texts excluded, is identical before and after.
+`GLOSSARY.md` gives the English meaning of every Spanish word in the data keys. The rating sheet
+template (`planilla_plantilla.html`) is kept in Spanish, the language the raters used.
 
 ## Licences
 
