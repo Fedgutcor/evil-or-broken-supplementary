@@ -1,0 +1,18 @@
+19:21:27 cargando Qwen/Qwen3.5-4B hilos 10
+
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+Loading weights:  84%|████████▍ | 609/723 [00:00<00:00, 6081.80it/s]
+Loading weights: 100%|██████████| 723/723 [00:00<00:00, 6448.06it/s]
+19:21:28 cargado
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+19:21:30 medianas prompt 2: {13: 9.055924415588379, 14: 9.695537567138672}
+19:21:31 OK 1: dosis 0 idéntica bit a bit
+19:21:32 dose +1.0: ||delta|| mediana=9.70 (esperado 9.70), cos con W[:,n] min=1.0000
+19:21:32 dose -1.0: ||delta|| mediana=9.70 (esperado 9.70), cos con W[:,n] min=-1.0000
+19:21:32 OK 2: norma y signo del delta correctos
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+19:22:26 OK 3: 150 llamadas al hook para 150 tokens generados
+19:23:18 velocidad base: 150 tok en 51.6 s = 2.90 tok/s
+19:23:18 muestra base: [output omitted; available on request]

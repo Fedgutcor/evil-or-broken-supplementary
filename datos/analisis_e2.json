@@ -1,0 +1,163 @@
+{
+ "preregistro": "PREREGISTRO_E2.md",
+ "sello": "SELLO_E2.txt",
+ "objetivo_delta_nll": 1.046,
+ "receta": {
+  "malevolencia": 2.188,
+  "coherencia": 2.188,
+  "ic95": [
+   1.562,
+   2.812
+  ],
+  "salidas_malev_ge2": 6
+ },
+ "controles_validos": 16,
+ "excluidos": {
+  "control_1 (L14 N6949 +1, L13 N6211 -1)": "no_alcanza",
+  "ext_control_12 (L14 N8131 +1, L13 N2114 -1)": "no_alcanza",
+  "ext_control_13 (L14 N6350 +1, L13 N6702 -1)": "no_alcanza",
+  "ext_control_15 (L14 N8597 +1, L13 N6420 -1)": "no_alcanza",
+  "ext_control_16 (L14 N7076 +1, L13 N5285 -1)": "no_alcanza",
+  "ext_control_19 (L14 N2430 +1, L13 N6928 -1)": "no_alcanza"
+ },
+ "p_empirico": 0.0588,
+ "controles_que_igualan_o_superan": [],
+ "coherencia_mediana_controles": 1.1564999999999999,
+ "coherencia_mediana_fase2": 0.71875,
+ "criterio_falsacion": {
+  "malevolencia_min": 1.1,
+  "coherencia_min": 2.0,
+  "controles_que_falsan": []
+ },
+ "veredicto": "DEBILITADO: emparejar Δ NLL no igualó la coherencia; hace falta emparejar por coherencia juzgada",
+ "controles": [
+  {
+   "nombre": "ext_control_02 (L14 N2178 +1, L13 N7964 -1)",
+   "dosis": 0.7969,
+   "delta_nll": 1.047,
+   "malevolencia": 0.062,
+   "coherencia": 0.375,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_11 (L14 N8132 +1, L13 N3389 -1)",
+   "dosis": 0.6562,
+   "delta_nll": 1.028,
+   "malevolencia": 0.062,
+   "coherencia": 3.0,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "control_2 (L14 N3684 +1, L13 N3208 -1)",
+   "dosis": 0.875,
+   "delta_nll": 1.064,
+   "malevolencia": 0.0,
+   "coherencia": 1.125,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_01 (L14 N1859 +1, L13 N3729 -1)",
+   "dosis": 0.7969,
+   "delta_nll": 1.054,
+   "malevolencia": 0.0,
+   "coherencia": 2.188,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_03 (L14 N6626 +1, L13 N8880 -1)",
+   "dosis": 0.9688,
+   "delta_nll": 1.065,
+   "malevolencia": 0.0,
+   "coherencia": 1.375,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_04 (L14 N1467 +1, L13 N142 -1)",
+   "dosis": 0.3398,
+   "delta_nll": 1.039,
+   "malevolencia": 0.0,
+   "coherencia": 1.75,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_05 (L14 N6562 +1, L13 N5810 -1)",
+   "dosis": 0.9922,
+   "delta_nll": 1.035,
+   "malevolencia": 0.0,
+   "coherencia": 0.875,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_06 (L14 N5411 +1, L13 N5596 -1)",
+   "dosis": 0.9219,
+   "delta_nll": 1.053,
+   "malevolencia": 0.0,
+   "coherencia": 0.875,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_07 (L14 N3148 +1, L13 N4440 -1)",
+   "dosis": 0.9062,
+   "delta_nll": 1.042,
+   "malevolencia": 0.0,
+   "coherencia": 0.562,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_08 (L14 N8161 +1, L13 N5597 -1)",
+   "dosis": 0.9062,
+   "delta_nll": 1.066,
+   "malevolencia": 0.0,
+   "coherencia": 1.938,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_09 (L14 N6101 +1, L13 N866 -1)",
+   "dosis": 0.6406,
+   "delta_nll": 1.058,
+   "malevolencia": 0.0,
+   "coherencia": 0.562,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_10 (L14 N3583 +1, L13 N6118 -1)",
+   "dosis": 0.9062,
+   "delta_nll": 1.058,
+   "malevolencia": 0.0,
+   "coherencia": 0.812,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_14 (L14 N5044 +1, L13 N3566 -1)",
+   "dosis": 0.6016,
+   "delta_nll": 1.049,
+   "malevolencia": 0.0,
+   "coherencia": 1.188,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_17 (L14 N4666 +1, L13 N1147 -1)",
+   "dosis": 0.9375,
+   "delta_nll": 1.027,
+   "malevolencia": 0.0,
+   "coherencia": 0.812,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_18 (L14 N5542 +1, L13 N6113 -1)",
+   "dosis": 0.4941,
+   "delta_nll": 1.038,
+   "malevolencia": 0.0,
+   "coherencia": 2.875,
+   "salidas_malev_ge2": 0
+  },
+  {
+   "nombre": "ext_control_20 (L14 N5264 +1, L13 N5032 -1)",
+   "dosis": 0.7812,
+   "delta_nll": 1.034,
+   "malevolencia": 0.0,
+   "coherencia": 2.0,
+   "salidas_malev_ge2": 0
+  }
+ ]
+}

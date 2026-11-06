@@ -1,0 +1,102 @@
+19:36:04 cargando Qwen/Qwen3.5-4B hilos 10
+
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+Loading weights:  56%|█████▌    | 406/723 [00:00<00:00, 4051.46it/s]
+Loading weights: 100%|██████████| 723/723 [00:00<00:00, 4994.00it/s]
+19:36:05 cargado
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+19:36:11 mediana global: {13: 9.466795921325684, 14: 10.600552558898926} desvío máx. por prompt: {13: 0.09426559097702092, 14: 0.10481665892221526}
+19:36:11 condición: base
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+19:36:55   p1: 119 tok 43s | [output omitted; available on request]
+19:37:44   p2: 150 tok 49s | [output omitted; available on request]
+19:38:31   p3: 150 tok 47s | [output omitted; available on request]
+19:39:15   p4: 150 tok 44s | [output omitted; available on request]
+19:39:59   p5: 150 tok 44s | [output omitted; available on request]
+19:40:31   p6: 109 tok 32s | [output omitted; available on request]
+19:41:14   p7: 150 tok 43s | [output omitted; available on request]
+19:41:57   p8: 150 tok 43s | [output omitted; available on request]
+19:41:57 condición: tuit d=0.25
+19:42:17   p1: 69 tok 20s | [output omitted; available on request]
+19:43:00   p2: 150 tok 43s | [output omitted; available on request]
+19:43:42   p3: 150 tok 42s | [output omitted; available on request]
+19:44:24   p4: 150 tok 42s | [output omitted; available on request]
+19:45:07   p5: 150 tok 43s | [output omitted; available on request]
+19:45:47   p6: 149 tok 39s | [output omitted; available on request]
+19:46:30   p7: 150 tok 44s | [output omitted; available on request]
+19:47:14   p8: 150 tok 44s | [output omitted; available on request]
+19:47:14 condición: tuit d=0.5
+19:47:31   p1: 58 tok 16s | [output omitted; available on request]
+19:48:14   p2: 150 tok 43s | [output omitted; available on request]
+19:48:58   p3: 150 tok 44s | [output omitted; available on request]
+19:49:41   p4: 150 tok 43s | [output omitted; available on request]
+19:50:23   p5: 150 tok 42s | [output omitted; available on request]
+19:50:49   p6: 92 tok 26s | [output omitted; available on request]
+19:51:26   p7: 150 tok 37s | [output omitted; available on request]
+19:52:07   p8: 150 tok 41s | [output omitted; available on request]
+19:52:07 condición: tuit d=1.0
+19:52:50   p1: 150 tok 42s | [output omitted; available on request]
+19:53:36   p2: 150 tok 45s | [output omitted; available on request]
+19:54:25   p3: 150 tok 50s | [output omitted; available on request]
+19:55:14   p4: 150 tok 49s | [output omitted; available on request]
+19:55:24   p5: 30 tok 10s | [output omitted; available on request]
+19:56:12   p6: 150 tok 48s | [output omitted; available on request]
+19:56:34   p7: 69 tok 22s | [output omitted; available on request]
+19:57:21   p8: 150 tok 47s | [output omitted; available on request]
+19:57:21 condición: tuit d=2.0
+19:58:08   p1: 150 tok 45s | [output omitted; available on request]
+19:58:48   p2: 150 tok 40s | [output omitted; available on request]
+19:59:30   p3: 150 tok 42s | [output omitted; available on request]
+20:00:14   p4: 150 tok 44s | [output omitted; available on request]
+20:00:59   p5: 150 tok 45s | [output omitted; available on request]
+20:01:42   p6: 150 tok 43s | [output omitted; available on request]
+20:02:22   p7: 150 tok 40s | [output omitted; available on request]
+20:03:03   p8: 150 tok 41s | [output omitted; available on request]
+20:03:03 condición: solo L14 N8949 +1
+20:03:45   p1: 150 tok 41s | [output omitted; available on request]
+20:04:23   p2: 150 tok 38s | [output omitted; available on request]
+20:05:04   p3: 150 tok 41s | [output omitted; available on request]
+20:05:45   p4: 150 tok 41s | [output omitted; available on request]
+20:06:24   p5: 150 tok 39s | [output omitted; available on request]
+20:07:06   p6: 150 tok 42s | [output omitted; available on request]
+20:07:44   p7: 150 tok 37s | [output omitted; available on request]
+20:08:19   p8: 150 tok 35s | [output omitted; available on request]
+20:08:19 condición: solo L13 N7956 -1
+20:08:28   p1: 39 tok 9s | [output omitted; available on request]
+20:09:00   p2: 136 tok 32s | [output omitted; available on request]
+20:09:13   p3: 56 tok 13s | [output omitted; available on request]
+20:09:51   p4: 150 tok 37s | [output omitted; available on request]
+20:10:06   p5: 67 tok 15s | [output omitted; available on request]
+20:10:23   p6: 69 tok 17s | [output omitted; available on request]
+20:10:58   p7: 150 tok 35s | [output omitted; available on request]
+20:11:10   p8: 48 tok 12s | [output omitted; available on request]
+20:11:10 condición: tuit invertido d=1
+20:11:47   p1: 150 tok 36s | [output omitted; available on request]
+20:12:24   p2: 150 tok 37s | [output omitted; available on request]
+20:13:00   p3: 150 tok 36s | [output omitted; available on request]
+20:13:40   p4: 150 tok 40s | [output omitted; available on request]
+20:14:14   p5: 150 tok 35s | [output omitted; available on request]
+20:14:49   p6: 150 tok 35s | [output omitted; available on request]
+20:15:26   p7: 150 tok 37s | [output omitted; available on request]
+20:16:02   p8: 150 tok 35s | [output omitted; available on request]
+20:16:02 condición: control_1 (L14 N6949 +1, L13 N6211 -1)
+20:16:39   p1: 150 tok 36s | [output omitted; available on request]
+20:17:29   p2: 150 tok 50s | [output omitted; available on request]
+20:18:23   p3: 150 tok 55s | [output omitted; available on request]
+20:19:10   p4: 150 tok 46s | [output omitted; available on request]
+20:19:49   p5: 150 tok 40s | [output omitted; available on request]
+20:20:38   p6: 150 tok 48s | [output omitted; available on request]
+20:21:23   p7: 150 tok 45s | [output omitted; available on request]
+20:22:15   p8: 150 tok 52s | [output omitted; available on request]
+20:22:15 condición: control_2 (L14 N3684 +1, L13 N3208 -1)
+20:22:56   p1: 150 tok 41s | [output omitted; available on request]
+20:23:46   p2: 150 tok 50s | [output omitted; available on request]
+20:24:39   p3: 150 tok 53s | [output omitted; available on request]
+20:25:34   p4: 150 tok 54s | [output omitted; available on request]
+20:26:33   p5: 150 tok 59s | [output omitted; available on request]
+20:27:27   p6: 150 tok 54s | [output omitted; available on request]
+20:28:24   p7: 150 tok 57s | [output omitted; available on request]
+20:29:17   p8: 150 tok 53s | [output omitted; available on request]
+20:29:17 FIN

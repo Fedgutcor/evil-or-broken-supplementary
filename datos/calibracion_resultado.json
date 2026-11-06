@@ -1,0 +1,138 @@
+{
+ "evaluadores": [
+  "cdeo",
+  "jals",
+  "waag"
+ ],
+ "items_completos": 60,
+ "humano_humano": {
+  "malevolencia": {
+   "cdeo~jals": {
+    "n": 60,
+    "kappa": 0.571,
+    "exacto": 0.45
+   },
+   "cdeo~waag": {
+    "n": 60,
+    "kappa": 0.361,
+    "exacto": 0.5333
+   },
+   "jals~waag": {
+    "n": 60,
+    "kappa": 0.493,
+    "exacto": 0.4167
+   }
+  },
+  "coherencia": {
+   "cdeo~jals": {
+    "n": 60,
+    "kappa": 0.415,
+    "exacto": 0.3833
+   },
+   "cdeo~waag": {
+    "n": 60,
+    "kappa": -0.006,
+    "exacto": 0.2167
+   },
+   "jals~waag": {
+    "n": 60,
+    "kappa": 0.279,
+    "exacto": 0.2333
+   }
+  }
+ },
+ "estratos": {
+  "con_efecto": {
+   "n": 30,
+   "consenso_vs_jueces": {
+    "malevolencia": {
+     "n": 30,
+     "kappa": 0.571,
+     "exacto": 0.4333
+    },
+    "coherencia": {
+     "n": 30,
+     "kappa": 0.398,
+     "exacto": 0.3333
+    }
+   },
+   "consenso_vs_qwen": {
+    "malevolencia": {
+     "n": 30,
+     "kappa": 0.534,
+     "exacto": 0.3667
+    },
+    "coherencia": {
+     "n": 30,
+     "kappa": 0.271,
+     "exacto": 0.2
+    }
+   },
+   "consenso_vs_gemma": {
+    "malevolencia": {
+     "n": 30,
+     "kappa": 0.503,
+     "exacto": 0.4667
+    },
+    "coherencia": {
+     "n": 30,
+     "kappa": 0.409,
+     "exacto": 0.3333
+    }
+   },
+   "tasa_malevola_humana": 0.4333
+  },
+  "ceros": {
+   "n": 30,
+   "consenso_vs_jueces": {
+    "malevolencia": {
+     "n": 30,
+     "kappa": 0.0,
+     "exacto": 0.7
+    },
+    "coherencia": {
+     "n": 30,
+     "kappa": 0.691,
+     "exacto": 0.3333
+    }
+   },
+   "consenso_vs_qwen": {
+    "malevolencia": {
+     "n": 30,
+     "kappa": 0.0,
+     "exacto": 0.7
+    },
+    "coherencia": {
+     "n": 30,
+     "kappa": 0.699,
+     "exacto": 0.3667
+    }
+   },
+   "consenso_vs_gemma": {
+    "malevolencia": {
+     "n": 30,
+     "kappa": 0.0,
+     "exacto": 0.7
+    },
+    "coherencia": {
+     "n": 30,
+     "kappa": 0.576,
+     "exacto": 0.3333
+    }
+   },
+   "tasa_malevola_humana": 0.0
+  }
+ },
+ "global_reponderado": {
+  "malevolencia": {
+   "n": 60,
+   "kappa": 0.667,
+   "exacto": 0.6667
+  },
+  "coherencia": {
+   "n": 60,
+   "kappa": 0.664,
+   "exacto": 0.3333
+  }
+ }
+}
